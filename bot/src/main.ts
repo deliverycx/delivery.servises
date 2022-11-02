@@ -7,6 +7,7 @@ import * as bodyParser from "body-parser";
 import { generateMessage, messageReserveTable } from "./services/generateMessage/generateMessage.service";
 import { OrganizationRepository } from "./repository/organization.repository";
 import { connection } from "./db/connection";
+const expressAccessToken = require('express-access-token');
 const app = express();
 
 //1858418208:AAEYdcVa3DEScKZd63BGrEa08nj4_hRjtdc
@@ -20,6 +21,21 @@ const bot = new TelegramBot("1858418208:AAHbGAeh6mG-XYsASrs7f_CRgxt4OMnmduw", { 
 
 app.use(bodyParser());
 
+const accessTokens = [
+	process.env.TOKEN
+];
+const firewall = (req, res, next) => {
+  const authorized = accessTokens.includes(req.accessToken);
+  if(!authorized) return res.status(403).send('Forbidden');
+  next();
+};
+
+
+// attaching to route group
+app.use(
+  expressAccessToken, // attaching accessToken to request
+  firewall, // firewall middleware that handles uses req.accessToken
+);
 
 
 
