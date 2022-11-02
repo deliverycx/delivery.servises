@@ -1,6 +1,23 @@
 version: "3.9"
 
 services:
+     proxy:
+        image: docker/proxy
+        build: ./proxy
+        container_name: proxy
+        volumes:
+            - ./proxy/nginx:/etc/nginx/conf.d
+            - ./certbot/conf:/etc/letsencrypt
+            - ./certbot/www:/var/www/certbot
+            
+        ports:
+            - "80:80"
+            - "443:443"
+        depends_on: 
+           - deliverycx_bot
+        command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"   
+        networks:
+          - mynetwork
     deliverycx_bot:
         container_name: deliverycx_bot
         build:
