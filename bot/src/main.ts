@@ -13,8 +13,10 @@ const app = express();
 //5298758359:AAEuosP07NVoy67XQBSBeRUyQ56_niJsq08
 
 // new 5298758359:AAHwrFD23e_RBUSXmimi72p5wI8MZtLYGTg
+// хинкалыч 5298758359:AAEwUrxQnV4M1vpKXAHzK8_uqVXO8nWaFbo
+// тест бот 1858418208:AAHbGAeh6mG-XYsASrs7f_CRgxt4OMnmduw
 
-const bot = new TelegramBot("5298758359:AAEwUrxQnV4M1vpKXAHzK8_uqVXO8nWaFbo", { polling: true });
+const bot = new TelegramBot("1858418208:AAHbGAeh6mG-XYsASrs7f_CRgxt4OMnmduw", { polling: true });
 
 app.use(bodyParser());
 
