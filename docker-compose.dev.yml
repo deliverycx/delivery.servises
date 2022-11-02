@@ -7,6 +7,8 @@ services:
             context: ./bot
         depends_on:
             - mongodb
+        ports:
+           - "7000:7000"    
         networks:
             - mynetwork
     mongodb:
