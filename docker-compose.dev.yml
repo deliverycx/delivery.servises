@@ -14,7 +14,6 @@ services:
         image: mongo
         volumes:
             - ./mongo/data:/data/db   
-        command: [--auth]
         ports:
            - "27017:27017"
         networks:
