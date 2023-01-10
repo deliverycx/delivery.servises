@@ -4,7 +4,7 @@ config();
 import * as TelegramBot from "node-telegram-bot-api";
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import { generateMessage, messageReserveTable } from "./services/generateMessage/generateMessage.service";
+import { generateMessage, messageCreatePayment, messageReserveTable, messageReturnPayment } from "./services/generateMessage/generateMessage.service";
 import { OrganizationRepository } from "./repository/organization.repository";
 import { connection } from "./db/connection";
 const expressAccessToken = require('express-access-token');
@@ -81,6 +81,50 @@ app.post("/reserveTable/:organizationId", async (req, res) => {
 
   res.status(200).json({ haveProblem: false, message: "Message is send" });
 });
+
+
+app.post("/payment/:organizationId", async (req, res) => {
+  const organization = req.params.organizationId;
+  const body = req.body;
+  const organizationDoc = await OrganizationRepository.getOne(organization);
+
+  if (!organizationDoc) {
+      return res.status(200).json({
+          haveProblem: true,
+          message: "Organization not found"
+      });
+  }
+  
+
+  const message = messageCreatePayment(body)
+
+  await bot.sendMessage(organizationDoc.chat, message);
+
+  res.status(200).json({ haveProblem: false, message: "Message is send" });
+});
+
+
+app.post("/return_payment/:organizationId", async (req, res) => {
+  const organization = req.params.organizationId;
+  const body = req.body;
+  const organizationDoc = await OrganizationRepository.getOne(organization);
+
+
+  if (!organizationDoc) {
+      return res.status(200).json({
+          haveProblem: true,
+          message: "Organization not found"
+      });
+  }
+  
+
+  const message = messageReturnPayment(body)
+
+  await bot.sendMessage(organizationDoc.chat, message);
+
+  res.status(200).json({ haveProblem: false, message: "Message is send" });
+});
+
 
 bot.onText(/\/reg (.+)/i, async (msg, match) => {
     const chatId = msg.chat.id;
