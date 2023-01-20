@@ -15,7 +15,6 @@ export function generateMessage(body: CreateMessage.IRecivedBody): string {
     result += `Телефон: ${body.phone}\n`;
     result += `Имя: ${body.name}\n`;
     result += `Комментарий: ${body.comment}`;
-		result += `Комментарий: ${body.comment}`;
 
     return result;
 }
