@@ -10,7 +10,7 @@ export function generateMessage(body: CreateMessage.IRecivedBody): string {
 
     result += `\n\n`;
     result += `Данные о пользователе: \n`;
-    result += `Тип доставки: ${body.orderType} \n`;
+    result += `Тип доставки: ${body.orderType} ${body.orderType === 'ONSPOT' && '(За столом)'} \n`;
     result += `Адрес: ${ body.orderType === 'PICKUP' ? ' ' : body.address}\n`;
     result += `Телефон: ${body.phone}\n`;
     result += `Имя: ${body.name}\n`;
