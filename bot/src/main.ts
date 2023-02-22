@@ -125,6 +125,27 @@ app.post("/return_payment/:organizationId", async (req, res) => {
   res.status(200).json({ haveProblem: false, message: "Message is send" });
 });
 
+app.post("/canselpayment/:organizationId", async (req, res) => {
+  const organization = req.params.organizationId;
+  const body = req.body;
+  const organizationDoc = await OrganizationRepository.getOne(organization);
+
+
+  if (!organizationDoc) {
+      return res.status(200).json({
+          haveProblem: true,
+          message: "Organization not found"
+      });
+  }
+  
+
+  const message = messageReturnPayment(body)
+
+  await bot.sendMessage(organizationDoc.chat, message);
+
+  res.status(200).json({ haveProblem: false, message: "Message is send" });
+});
+
 
 bot.onText(/\/reg (.+)/i, async (msg, match) => {
     const chatId = msg.chat.id;

@@ -64,3 +64,16 @@ export function messageReturnPayment(body: CreateMessage.ImessageRetuntPayment):
 
   return result;
 }
+
+export function canselPayment(body: CreateMessage.ImessageRetuntPayment): string {
+  let result = ``;
+
+  result += `\n\n`;
+  result += `Возврат полаты: \n`;
+  result += `номер платежа: ${body.paymentId}\n`;
+  result += `статус возврата: 'Выполнено'\n`;
+
+	
+
+  return result;
+}
