@@ -4,7 +4,7 @@ config();
 import * as TelegramBot from "node-telegram-bot-api";
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import { generateMessage, messageCreatePayment, messageReserveTable, messageReturnPayment } from "./services/generateMessage/generateMessage.service";
+import { canselPayment, generateMessage, messageCreatePayment, messageReserveTable, messageReturnPayment } from "./services/generateMessage/generateMessage.service";
 import { OrganizationRepository } from "./repository/organization.repository";
 import { connection } from "./db/connection";
 const expressAccessToken = require('express-access-token');
@@ -139,7 +139,7 @@ app.post("/canselpayment/:organizationId", async (req, res) => {
   }
   
 
-  const message = messageReturnPayment(body)
+  const message = canselPayment(body)
 
   await bot.sendMessage(organizationDoc.chat, message);
 
