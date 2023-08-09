@@ -16,9 +16,9 @@ export function generateMessage(body: CreateMessage.IRecivedBody): string {
     result += `Имя: ${body.name}\n`;
     result += `Комментарий: ${body.comment} \n`;
 		result += `Данные о заказе: \n`;
-		result += `номер заказа - ${body.ordernumber} / id - ${body.orderid} \n`;
-		result += `дата - ${body.orderdata} / сумма - ${body.orderamount} \n`;
+		result += `дата - ${body.orderdata} \n`;
 		result += `сумма - ${body.orderamount} `;
+		result += `номер заказа - ${body.ordernumber} / id - ${body.orderid} \n`;
 
     return result;
 }
