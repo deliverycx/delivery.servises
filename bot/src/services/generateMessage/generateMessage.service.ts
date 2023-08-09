@@ -14,10 +14,11 @@ export function generateMessage(body: CreateMessage.IRecivedBody): string {
     result += `Адрес: ${ body.orderType === 'PICKUP' ? ' ' : body.address}\n`;
     result += `Телефон: ${body.phone}\n`;
     result += `Имя: ${body.name}\n`;
-    result += `Комментарий: ${body.comment}`;
+    result += `Комментарий: ${body.comment} \n`;
 		result += `Данные о заказе: \n`;
 		result += `номер заказа - ${body.ordernumber} / id - ${body.orderid} \n`;
 		result += `дата - ${body.orderdata} / сумма - ${body.orderamount} \n`;
+		result += `сумма - ${body.orderamount} `;
 
     return result;
 }
