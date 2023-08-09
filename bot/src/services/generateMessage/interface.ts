@@ -11,6 +11,10 @@ export namespace CreateMessage {
 				orderTypeName: string;
 				orderType:string;
 				ONSPOTTable:number;
+				orderid:string
+				ordernumber:number
+				orderdata:string
+				orderamount:number
   }
   export interface ImessageReserveTable {
     fullname: string

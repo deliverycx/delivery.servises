@@ -52,7 +52,7 @@ app.post("/sendDuplicate/:organizationId", async (req, res) => {
         });
     }
     
-
+		console.log(body);
     const message = generateMessage(body);
 
     await bot.sendMessage(organizationDoc.chat, message);
