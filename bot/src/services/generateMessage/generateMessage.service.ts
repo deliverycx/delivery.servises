@@ -20,7 +20,7 @@ export function generateMessage(body: CreateMessage.IRecivedBody): string {
 		result += `сумма - ${body.orderamount} `;
 		result += `номер заказа - ${body.ordernumber} / id - ${body.orderid} \n`;
 		result += body.deliveryParam.timedelivery && `время доставки - ${body.deliveryParam.timedelivery} \n`;
-		result += body.deliveryParam.customermoneu && `сдача - ${body.deliveryParam.timedelivery} \n`;
+		result += body.deliveryParam.customermoneu && `сдача - ${body.deliveryParam.customermoneu} \n`;
 
     return result;
 }
