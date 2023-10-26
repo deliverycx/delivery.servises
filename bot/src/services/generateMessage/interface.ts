@@ -15,6 +15,10 @@ export namespace CreateMessage {
 				ordernumber:number
 				orderdata:string
 				orderamount:number
+				deliveryParam:{
+					timedelivery:string
+					customermoneu:number
+				}
   }
   export interface ImessageReserveTable {
     fullname: string
