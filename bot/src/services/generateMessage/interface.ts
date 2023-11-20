@@ -18,6 +18,7 @@ export namespace CreateMessage {
 				deliveryParam:{
 					timedelivery:string
 					customermoneu:number
+					devises:string
 				}
   }
   export interface ImessageReserveTable {

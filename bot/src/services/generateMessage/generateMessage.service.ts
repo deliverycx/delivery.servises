@@ -19,8 +19,8 @@ export function generateMessage(body: CreateMessage.IRecivedBody): string {
 		result += `дата - ${body.orderdata} \n`;
 		result += `сумма - ${body.orderamount} `;
 		result += `номер заказа - ${body.ordernumber} / id - ${body.orderid} \n`;
-		//result += (body.deliveryParam && body.deliveryParam.timedelivery)  && `время доставки - ${body.deliveryParam.timedelivery} \n`;
-		//result += (body.deliveryParam && body.deliveryParam.customermoneu) && `сдача - ${body.deliveryParam.customermoneu} \n`;
+		result += (body.deliveryParam && (body.deliveryParam.timedelivery || body.deliveryParam.customermoneu || body.deliveryParam.devises))  && `время доставки - ${body.deliveryParam.timedelivery}, сдача - ${body.deliveryParam.customermoneu}, приборы - ${body.deliveryParam.devises}  \n`;
+		
 
     return result;
 }
