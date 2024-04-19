@@ -50,7 +50,7 @@ export function messageCreatePayment(body: CreateMessage.ImessagePaymentOrder): 
   result += `Сумма: ${body.amount.value}\n`;
   result += `номер платежа: ${body.id}\n`;
 	result += `id магазина: ${body.merchantId}\n`;
-	result += `Статус оплаты: ${body.status === 'Authorized' && 'Холдирование(деньги на удержании)'} ${body.status === 'Settled' && 'Подтвержден(деньги списали)'}  \n`;
+	result += `Статус оплаты: ${body.status === 'Authorized' ? 'Холдирование(деньги на удержании)' : ''} ${body.status === 'Settled' ? 'Подтвержден(деньги списали)': ''}  \n`;
 	
 
   return result;
