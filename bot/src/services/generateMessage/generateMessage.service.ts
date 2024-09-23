@@ -89,7 +89,7 @@ export function unloadWebMenu(): string {
 	let result = ``;
 
 	result += `\n\n`;
-	result += `Тест обновления меню \n`;
+	result += `Обновление меню iikkoWeb \n`;
 
 
 
