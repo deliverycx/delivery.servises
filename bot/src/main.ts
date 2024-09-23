@@ -4,7 +4,7 @@ config();
 import * as TelegramBot from "node-telegram-bot-api";
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import { canselPayment, generateMessage, messageCreatePayment, messageReserveTable, messageReturnPayment } from "./services/generateMessage/generateMessage.service";
+import { canselPayment, generateMessage, messageCreatePayment, messageReserveTable, messageReturnPayment, unloadWebMenu } from "./services/generateMessage/generateMessage.service";
 import { OrganizationRepository } from "./repository/organization.repository";
 import { connection } from "./db/connection";
 const expressAccessToken = require('express-access-token');
@@ -25,163 +25,174 @@ const accessTokens = [
 	process.env.TOKEN
 ];
 const firewall = (req, res, next) => {
-  const authorized = accessTokens.includes(req.accessToken);
-  if(!authorized) return res.status(403).send('Forbidden');
-  next();
+	const authorized = accessTokens.includes(req.accessToken);
+	if (!authorized) return res.status(403).send('Forbidden');
+	next();
 };
 
 
 // attaching to route group
 app.use(
-  expressAccessToken, // attaching accessToken to request
-  firewall, // firewall middleware that handles uses req.accessToken
+	expressAccessToken, // attaching accessToken to request
+	firewall, // firewall middleware that handles uses req.accessToken
 );
 
 
 
 app.post("/sendDuplicate/:organizationId", async (req, res) => {
-    const organization = req.params.organizationId;
-    const body = req.body;
-    const organizationDoc = await OrganizationRepository.getOne(organization);
+	const organization = req.params.organizationId;
+	const body = req.body;
+	const organizationDoc = await OrganizationRepository.getOne(organization);
 
-    console.log(body,organization,organizationDoc)
-    if (!organizationDoc) {
-        return res.status(200).json({
-            haveProblem: true,
-            message: "Organization not found"
-        });
-    }
-    
-		console.log(body);
-    const message = generateMessage(body);
+	console.log(body, organization, organizationDoc)
+	if (!organizationDoc) {
+		return res.status(200).json({
+			haveProblem: true,
+			message: "Organization not found"
+		});
+	}
 
-    await bot.sendMessage(organizationDoc.chat, message);
+	console.log(body);
+	const message = generateMessage(body);
 
-    res.status(200).json({ haveProblem: false, message: "Message is send" });
+	await bot.sendMessage(organizationDoc.chat, message);
+
+	res.status(200).json({ haveProblem: false, message: "Message is send" });
 });
 
 
 app.post("/reserveTable/:organizationId", async (req, res) => {
-  const organization = req.params.organizationId;
-  const body = req.body;
-  const organizationDoc = await OrganizationRepository.getOne(organization);
+	const organization = req.params.organizationId;
+	const body = req.body;
+	const organizationDoc = await OrganizationRepository.getOne(organization);
 
-  console.log(body,organization,organizationDoc)
-  if (!organizationDoc) {
-      return res.status(200).json({
-          haveProblem: true,
-          message: "Organization not found"
-      });
-  }
-  
+	console.log(body, organization, organizationDoc)
+	if (!organizationDoc) {
+		return res.status(200).json({
+			haveProblem: true,
+			message: "Organization not found"
+		});
+	}
 
-  const message = messageReserveTable(body);
 
-  await bot.sendMessage(organizationDoc.chat, message);
+	const message = messageReserveTable(body);
 
-  res.status(200).json({ haveProblem: false, message: "Message is send" });
+	await bot.sendMessage(organizationDoc.chat, message);
+
+	res.status(200).json({ haveProblem: false, message: "Message is send" });
 });
 
 
 app.post("/payment/:organizationId", async (req, res) => {
-  const organization = req.params.organizationId;
-  const body = req.body;
-  const organizationDoc = await OrganizationRepository.getOne(organization);
+	const organization = req.params.organizationId;
+	const body = req.body;
+	const organizationDoc = await OrganizationRepository.getOne(organization);
 
-  if (!organizationDoc) {
-      return res.status(200).json({
-          haveProblem: true,
-          message: "Organization not found"
-      });
-  }
-  
+	if (!organizationDoc) {
+		return res.status(200).json({
+			haveProblem: true,
+			message: "Organization not found"
+		});
+	}
 
-  const message = messageCreatePayment(body)
 
-  await bot.sendMessage(organizationDoc.chat, message);
+	const message = messageCreatePayment(body)
 
-  res.status(200).json({ haveProblem: false, message: "Message is send" });
+	await bot.sendMessage(organizationDoc.chat, message);
+
+	res.status(200).json({ haveProblem: false, message: "Message is send" });
 });
 
 
 app.post("/return_payment/:organizationId", async (req, res) => {
-  const organization = req.params.organizationId;
-  const body = req.body;
-  const organizationDoc = await OrganizationRepository.getOne(organization);
+	const organization = req.params.organizationId;
+	const body = req.body;
+	const organizationDoc = await OrganizationRepository.getOne(organization);
 
 
-  if (!organizationDoc) {
-      return res.status(200).json({
-          haveProblem: true,
-          message: "Organization not found"
-      });
-  }
-  
+	if (!organizationDoc) {
+		return res.status(200).json({
+			haveProblem: true,
+			message: "Organization not found"
+		});
+	}
 
-  const message = messageReturnPayment(body)
 
-  await bot.sendMessage(organizationDoc.chat, message);
+	const message = messageReturnPayment(body)
 
-  res.status(200).json({ haveProblem: false, message: "Message is send" });
+	await bot.sendMessage(organizationDoc.chat, message);
+
+	res.status(200).json({ haveProblem: false, message: "Message is send" });
 });
 
 app.post("/canselpayment/:organizationId", async (req, res) => {
-  const organization = req.params.organizationId;
-  const body = req.body;
-  const organizationDoc = await OrganizationRepository.getOne(organization);
+	const organization = req.params.organizationId;
+	const body = req.body;
+	const organizationDoc = await OrganizationRepository.getOne(organization);
 
 
-  if (!organizationDoc) {
-      return res.status(200).json({
-          haveProblem: true,
-          message: "Organization not found"
-      });
-  }
-  
+	if (!organizationDoc) {
+		return res.status(200).json({
+			haveProblem: true,
+			message: "Organization not found"
+		});
+	}
 
-  const message = canselPayment(body)
 
-  await bot.sendMessage(organizationDoc.chat, message);
+	const message = canselPayment(body)
 
-  res.status(200).json({ haveProblem: false, message: "Message is send" });
+	await bot.sendMessage(organizationDoc.chat, message);
+
+	res.status(200).json({ haveProblem: false, message: "Message is send" });
+});
+
+
+app.post("/unloadmenu", async (req, res) => {
+
+
+	const message = unloadWebMenu()
+
+	await bot.sendMessage("-1002495386336", message);
+
+	res.status(200).json({ haveProblem: false, message: "Message is send" });
 });
 
 
 bot.onText(/\/reg (.+)/i, async (msg, match) => {
-    const chatId = msg.chat.id;
+	const chatId = msg.chat.id;
 
-  const organizationDoc = await OrganizationRepository.getOne(match[1]);
-  console.log(organizationDoc,chatId)
+	const organizationDoc = await OrganizationRepository.getOne(match[1]);
+	console.log(organizationDoc, chatId)
 
-    if (organizationDoc) {
-        return bot.sendMessage(
-            chatId,
-            "Данная организация уже зарегистрирована в боте"
-        );
-    }
+	if (organizationDoc) {
+		return bot.sendMessage(
+			chatId,
+			"Данная организация уже зарегистрирована в боте"
+		);
+	}
 
-    await OrganizationRepository.register(chatId, match[1]);
+	await OrganizationRepository.register(chatId, match[1]);
 
-    bot.sendMessage(chatId, "Ваше заведение успешно зарегистрированно");
+	bot.sendMessage(chatId, "Ваше заведение успешно зарегистрированно");
 });
 
 bot.onText(/\/del (.+)/i, async (msg, match) => {
-    const chatId = msg.chat.id;
-    const organization = match[1];
+	const chatId = msg.chat.id;
+	const organization = match[1];
 
-    if (!organization) {
-        return bot.sendMessage(chatId, "Заданная организация пуста");
-    }
+	if (!organization) {
+		return bot.sendMessage(chatId, "Заданная организация пуста");
+	}
 
-    const result = await OrganizationRepository.removeOne(chatId, match[1]);
-    if (result.deletedCount === 0) {
-        return bot.sendMessage(chatId, "Нечего удалять");
-    }
-    bot.sendMessage(chatId, "Успешно удалено");
+	const result = await OrganizationRepository.removeOne(chatId, match[1]);
+	if (result.deletedCount === 0) {
+		return bot.sendMessage(chatId, "Нечего удалять");
+	}
+	bot.sendMessage(chatId, "Успешно удалено");
 });
 
 connection().then(() => {
-    app.listen(process.env.PORT, () => {
-        console.log("start");
-    });
+	app.listen(process.env.PORT, () => {
+		console.log("start");
+	});
 });
