@@ -191,6 +191,18 @@ bot.onText(/\/del (.+)/i, async (msg, match) => {
 	bot.sendMessage(chatId, "Успешно удалено");
 });
 
+
+bot.onText(/\/get (.+)/i, async (msg, match) => {
+	const chatId = msg.chat.id;
+	const organization = match[1];
+
+	const organizationDoc = await OrganizationRepository.getOne(organization);
+	console.log(organizationDoc, chatId)
+
+
+	bot.sendMessage(chatId, `Оранизация ${organizationDoc}`);
+});
+
 connection().then(() => {
 	app.listen(process.env.PORT, () => {
 		console.log("start");
