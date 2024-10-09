@@ -200,7 +200,7 @@ bot.onText(/\/get (.+)/i, async (msg, match) => {
 	console.log(organizationDoc, chatId)
 
 
-	bot.sendMessage(chatId, `Оранизация ${organizationDoc}`);
+	bot.sendMessage(chatId, `Оранизация ${organizationDoc.organization}`);
 });
 
 connection().then(() => {
