@@ -17,7 +17,7 @@ const app = express();
 // хинкалыч 5298758359:AAEwUrxQnV4M1vpKXAHzK8_uqVXO8nWaFbo
 // тест бот 1858418208:AAHbGAeh6mG-XYsASrs7f_CRgxt4OMnmduw
 
-const bot = new TelegramBot("5298758359:AAEwUrxQnV4M1vpKXAHzK8_uqVXO8nWaFbo", { polling: true });
+const bot = new TelegramBot("8725607763:AAFXmzktFnjWAn_ChOBAK42AdABHLJbX4ho", { polling: true });
 
 app.use(bodyParser());
 
